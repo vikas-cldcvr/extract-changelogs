@@ -2,6 +2,7 @@ import * as core from '@actions/core'
 import fs from 'fs'
 import readline from 'readline'
 import slackifyMarkdown from 'slackify-markdown'
+import esrever from 'esrever'
 
 const encoding = 'utf8'
 const eol = '\n'
@@ -42,11 +43,16 @@ async function extractReleaseNotes(
     (previousValue, currentValue) => previousValue + eol + currentValue
   )
   releaseNotes = trimEmptyLinesTop(releaseNotes)
+  releaseNotes = trimEmptyLinesBottom(releaseNotes)
   return releaseNotes
 }
 
 function trimEmptyLinesTop(releaseNotes: string): string {
   return releaseNotes.replace(topEmptyLines, '')
+}
+
+function trimEmptyLinesBottom(releaseNotes: string): string {
+  return esrever.reverse(trimEmptyLinesTop(esrever.reverse(releaseNotes)))
 }
 
 async function run(): Promise<void> {
@@ -74,9 +80,9 @@ async function run(): Promise<void> {
 			To update your package to the latest version, simply run the following command in your project directory:\n
 			\`npm install ${packageWithVersion[0]}@${packageWithVersion[1]}\`\n\nIf you're using Yarn, you can use the following command:\n\n\`yarn add ${packageWithVersion[0]}@${packageWithVersion[1]}\`\n
 			`
-      const mrkdwn = slackifyMarkdown(md)
+      const mrkdwn = slackifyMarkdown(md.trim())
 
-      changeLogs += mrkdwn
+      changeLogs += mrkdwn.trim()
     }
     // eslint-disable-next-line no-console
     console.info(`Final changelog : ${changeLogs}`)

@@ -53,6 +53,7 @@ const core = __importStar(__nccwpck_require__(2186));
 const fs_1 = __importDefault(__nccwpck_require__(7147));
 const readline_1 = __importDefault(__nccwpck_require__(4521));
 const slackify_markdown_1 = __importDefault(__nccwpck_require__(9418));
+const esrever_1 = __importDefault(__nccwpck_require__(7270));
 const encoding = 'utf8';
 const eol = '\n';
 const topEmptyLines = new RegExp(`^([${eol}]*)`, 'm');
@@ -107,11 +108,15 @@ function extractReleaseNotes(changelogFile, prerelease) {
         }
         let releaseNotes = lines.reduce((previousValue, currentValue) => previousValue + eol + currentValue);
         releaseNotes = trimEmptyLinesTop(releaseNotes);
+        releaseNotes = trimEmptyLinesBottom(releaseNotes);
         return releaseNotes;
     });
 }
 function trimEmptyLinesTop(releaseNotes) {
     return releaseNotes.replace(topEmptyLines, '');
+}
+function trimEmptyLinesBottom(releaseNotes) {
+    return esrever_1.default.reverse(trimEmptyLinesTop(esrever_1.default.reverse(releaseNotes)));
 }
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -129,8 +134,8 @@ function run() {
 			To update your package to the latest version, simply run the following command in your project directory:\n
 			\`npm install ${packageWithVersion[0]}@${packageWithVersion[1]}\`\n\nIf you're using Yarn, you can use the following command:\n\n\`yarn add ${packageWithVersion[0]}@${packageWithVersion[1]}\`\n
 			`;
-                const mrkdwn = (0, slackify_markdown_1.default)(md);
-                changeLogs += mrkdwn;
+                const mrkdwn = (0, slackify_markdown_1.default)(md.trim());
+                changeLogs += mrkdwn.trim();
             }
             // eslint-disable-next-line no-console
             console.info(`Final changelog : ${changeLogs}`);
@@ -1966,6 +1971,86 @@ function ccount(source, character) {
 
   return count
 }
+
+
+/***/ }),
+
+/***/ 7270:
+/***/ (function(module, exports, __nccwpck_require__) {
+
+/* module decorator */ module = __nccwpck_require__.nmd(module);
+/*! https://mths.be/esrever v0.2.0 by @mathias */
+;(function(root) {
+
+	// Detect free variables `exports`
+	var freeExports =  true && exports;
+
+	// Detect free variable `module`
+	var freeModule =  true && module &&
+		module.exports == freeExports && module;
+
+	// Detect free variable `global`, from Node.js or Browserified code,
+	// and use it as `root`
+	var freeGlobal = typeof global == 'object' && global;
+	if (freeGlobal.global === freeGlobal || freeGlobal.window === freeGlobal) {
+		root = freeGlobal;
+	}
+
+	/*--------------------------------------------------------------------------*/
+
+	var regexSymbolWithCombiningMarks = /([\0-\u02FF\u0370-\u1AAF\u1B00-\u1DBF\u1E00-\u20CF\u2100-\uD7FF\uE000-\uFE1F\uFE30-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])([\u0300-\u036F\u1AB0-\u1AFF\u1DC0-\u1DFF\u20D0-\u20FF\uFE20-\uFE2F]+)/g;
+	var regexSurrogatePair = /([\uD800-\uDBFF])([\uDC00-\uDFFF])/g;
+
+	var reverse = function(string) {
+		// Step 1: deal with combining marks and astral symbols (surrogate pairs)
+		string = string
+			// Swap symbols with their combining marks so the combining marks go first
+			.replace(regexSymbolWithCombiningMarks, function($0, $1, $2) {
+				// Reverse the combining marks so they will end up in the same order
+				// later on (after another round of reversing)
+				return reverse($2) + $1;
+			})
+			// Swap high and low surrogates so the low surrogates go first
+			.replace(regexSurrogatePair, '$2$1');
+		// Step 2: reverse the code units in the string
+		var result = '';
+		var index = string.length;
+		while (index--) {
+			result += string.charAt(index);
+		}
+		return result;
+	};
+
+	/*--------------------------------------------------------------------------*/
+
+	var esrever = {
+		'version': '0.2.0',
+		'reverse': reverse
+	};
+
+	// Some AMD build optimizers, like r.js, check for specific condition patterns
+	// like the following:
+	if (
+		typeof define == 'function' &&
+		typeof define.amd == 'object' &&
+		define.amd
+	) {
+		define(function() {
+			return esrever;
+		});
+	}	else if (freeExports && !freeExports.nodeType) {
+		if (freeModule) { // in Node.js, io.js, or RingoJS v0.8.0+
+			freeModule.exports = esrever;
+		} else { // in Narwhal or RingoJS v0.7.0-
+			for (var key in esrever) {
+				esrever.hasOwnProperty(key) && (freeExports[key] = esrever[key]);
+			}
+		}
+	} else { // in Rhino or a web browser
+		root.esrever = esrever;
+	}
+
+}(this));
 
 
 /***/ }),
@@ -16008,8 +16093,8 @@ module.exports = JSON.parse('{"AEli":"Æ","AElig":"Æ","AM":"&","AMP":"&","Aacut
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
-/******/ 			// no module.loaded needed
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
 /******/ 			exports: {}
 /******/ 		};
 /******/ 	
@@ -16022,11 +16107,23 @@ module.exports = JSON.parse('{"AEli":"Æ","AElig":"Æ","AM":"&","AMP":"&","Aacut
 /******/ 			if(threw) delete __webpack_module_cache__[moduleId];
 /******/ 		}
 /******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__nccwpck_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/compat */
 /******/ 	
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
