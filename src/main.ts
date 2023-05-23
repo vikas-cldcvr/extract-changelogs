@@ -78,7 +78,8 @@ async function run(): Promise<void> {
 
       changeLogs += mrkdwn
     }
-    core.debug(`Final changelog '${changeLogs}'`)
+    // eslint-disable-next-line no-console
+    console.info(`Final changelog '${changeLogs}'`)
     core.setOutput('changeLogs', changeLogs)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)

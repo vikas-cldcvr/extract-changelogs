@@ -132,6 +132,8 @@ function run() {
                 const mrkdwn = (0, slackify_markdown_1.default)(md);
                 changeLogs += mrkdwn;
             }
+            // eslint-disable-next-line no-console
+            console.info(`Final changelog '${changeLogs}'`);
             core.setOutput('changeLogs', changeLogs);
         }
         catch (error) {
