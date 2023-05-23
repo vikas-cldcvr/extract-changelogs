@@ -8,6 +8,8 @@ GitHub Action to convert changelogs from monorepo with multiple files and packag
 
 * `changelog-files-config` - JSON string of key values pair of package name and respective changelog file path
 
+* `released-package-versions` - JSON string of key values pair of package name and respective latest version
+
 ### Outputs
 
-* `released-package-versions` - JSON string of key values pair of package name and respective version
+* `changeLogs` - mrkdwn syntax compatible for slack messages.
