@@ -78,7 +78,7 @@ async function run(): Promise<void> {
 
       changeLogs += mrkdwn
     }
-
+    core.debug(`Final changelog '${changeLogs}'`)
     core.setOutput('changeLogs', changeLogs)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
