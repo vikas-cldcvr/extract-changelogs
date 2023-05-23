@@ -21,4 +21,13 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./
         with:
-          milliseconds: 1000
+          changelog-files-config: |
+            {
+              "test":"SAMPLE_CHNAGELOG.md",
+               "test2":"SAMPLE_CHNAGELOG.md"
+            }
+          released-package-versions: |
+            {
+              "test":"1.0.2",
+              "test2":"2.1.2"
+            }

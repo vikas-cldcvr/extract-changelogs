@@ -1,11 +1,18 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'extract-changelogs'
+description: 'This action accepts object with package name and changelog files path. gives you consolidated changelogs with slack markdown enabled format.'
+author: 'vikas-cldcvr'
 inputs:
-  milliseconds: # change this
+  changelog-files-config: 
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'keya-value object of packagename and changelog file path'
+    default: '{}'
+  released-package-versions: 
+    required: true
+    description: 'keya-value object of packagename and version file path'
+    default: '{}'
+  outputs:
+    changelog:
+      description: 'Converted Slack mrkdwn text'
 runs:
   using: 'node16'
   main: 'dist/index.js'
