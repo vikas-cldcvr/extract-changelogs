@@ -127,7 +127,10 @@ function run() {
             const packageFilesPath = JSON.parse(packageFilesPathString);
             const packageVersions = JSON.parse(packageVersionsString);
             let changeLogs = ``;
-            for (const packageWithVersion of packageVersions) {
+            console.log(packageFilesPath, packageVersions);
+            // eslint-disable-next-line @typescript-eslint/prefer-for-of
+            for (let i = 0; i < packageVersions.length; i++) {
+                const packageWithVersion = packageVersions[i];
                 console.log(`Extracting logs for ${packageWithVersion.name} from ${packageFilesPath[packageWithVersion.name]}`);
                 const releaseNotes = yield extractReleaseNotes(packageFilesPath[packageWithVersion.name], 'false');
                 const md = `\nPackage : \`${packageWithVersion.name}@${packageWithVersion.version}\`\n${releaseNotes}\nTo update your package to the latest version, simply run the following command in your project directory:\n\`npm install ${packageWithVersion.name}@${packageWithVersion.version}\`\n\nIf you're using Yarn, you can use the following command:\n\n\`yarn add ${packageWithVersion.name}@${packageWithVersion.version}\`\n`;

@@ -72,7 +72,10 @@ async function run(): Promise<void> {
     }[]
     let changeLogs = ``
 
-    for (const packageWithVersion of packageVersions) {
+    console.log(packageFilesPath, packageVersions)
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
+    for (let i = 0; i < packageVersions.length; i++) {
+      const packageWithVersion = packageVersions[i]
       console.log(
         `Extracting logs for ${packageWithVersion.name} from ${
           packageFilesPath[packageWithVersion.name]
