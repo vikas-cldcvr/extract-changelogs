@@ -63,7 +63,7 @@ async function run(): Promise<void> {
     let changeLogs = ``
 
     for (const packageWithVersion of Object.entries(packageVersions)) {
-      const releaseNotes = extractReleaseNotes(
+      const releaseNotes = await extractReleaseNotes(
         packageFilesPath[packageWithVersion[0]],
         'false'
       )
@@ -72,14 +72,14 @@ async function run(): Promise<void> {
 			${packageWithVersion[0]}@${packageWithVersion[1]}\n
 			${releaseNotes}\n
 			To update your package to the latest version, simply run the following command in your project directory:\n
-			\`npm install ${packageVersions[0]}@${packageVersions[1]}\`\n\nIf you're using Yarn, you can use the following command:\n\n\`yarn add ${packageVersions[0]}@${packageVersions[1]}\`\n
+			\`npm install ${packageWithVersion[0]}@${packageWithVersion[1]}\`\n\nIf you're using Yarn, you can use the following command:\n\n\`yarn add ${packageWithVersion[0]}@${packageWithVersion[1]}\`\n
 			`
       const mrkdwn = slackifyMarkdown(md)
 
       changeLogs += mrkdwn
     }
     // eslint-disable-next-line no-console
-    console.info(`Final changelog '${changeLogs}'`)
+    console.info(`Final changelog : ${changeLogs}`)
     core.setOutput('changeLogs', changeLogs)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)

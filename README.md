@@ -1,5 +1,7 @@
 # extract-changelogs
 GitHub Action to convert changelogs from monorepo with multiple files and packages to slack message format.
+
+[![build-test](https://github.com/vikas-cldcvr/extract-changelogs/actions/workflows/test.yml/badge.svg)](https://github.com/vikas-cldcvr/extract-changelogs/actions/workflows/test.yml)
 ## Usage
 
 ### Inputs
