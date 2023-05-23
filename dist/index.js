@@ -49,6 +49,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+/* eslint-disable no-console */
 const core = __importStar(__nccwpck_require__(2186));
 const fs_1 = __importDefault(__nccwpck_require__(7147));
 const readline_1 = __importDefault(__nccwpck_require__(4521));
@@ -127,16 +128,17 @@ function run() {
             const packageVersions = JSON.parse(packageVersionsString);
             let changeLogs = ``;
             for (const packageWithVersion of packageVersions) {
+                console.log(`Extracting logs for ${packageWithVersion.name} from ${packageFilesPath[packageWithVersion.name]}`);
                 const releaseNotes = yield extractReleaseNotes(packageFilesPath[packageWithVersion.name], 'false');
                 const md = `\nPackage : \`${packageWithVersion.name}@${packageWithVersion.version}\`\n${releaseNotes}\nTo update your package to the latest version, simply run the following command in your project directory:\n\`npm install ${packageWithVersion.name}@${packageWithVersion.version}\`\n\nIf you're using Yarn, you can use the following command:\n\n\`yarn add ${packageWithVersion.name}@${packageWithVersion.version}\`\n`;
                 const mrkdwn = (0, slackify_markdown_1.default)(md.trim());
                 changeLogs += `${mrkdwn.trim()}\n\n`;
             }
-            // eslint-disable-next-line no-console
             console.info(`${changeLogs}`);
             core.setOutput('changeLogs', changeLogs);
         }
         catch (error) {
+            console.error(error);
             if (error instanceof Error)
                 core.setFailed(error.message);
         }

@@ -1,6 +1,6 @@
 {
   "name": "extract-changelogs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Extract changelogs from mono repo packages",
   "main": "lib/main.js",
@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vikas-cldcvr/extract-changelogs"
+    "url": "git+https://github.com/vikas-cldcvr/extract-changelogs.git"
   },
   "keywords": [
     "actions",
     "node",
     "setup"
   ],
-  "author": "",
+  "author": "vikas-cldcvr",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.10.0",

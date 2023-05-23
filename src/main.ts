@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import * as core from '@actions/core'
 import fs from 'fs'
 import readline from 'readline'
@@ -72,6 +73,11 @@ async function run(): Promise<void> {
     let changeLogs = ``
 
     for (const packageWithVersion of packageVersions) {
+      console.log(
+        `Extracting logs for ${packageWithVersion.name} from ${
+          packageFilesPath[packageWithVersion.name]
+        }`
+      )
       const releaseNotes = await extractReleaseNotes(
         packageFilesPath[packageWithVersion.name],
         'false'
@@ -82,10 +88,10 @@ async function run(): Promise<void> {
 
       changeLogs += `${mrkdwn.trim()}\n\n`
     }
-    // eslint-disable-next-line no-console
     console.info(`${changeLogs}`)
     core.setOutput('changeLogs', changeLogs)
   } catch (error) {
+    console.error(error)
     if (error instanceof Error) core.setFailed(error.message)
   }
 }
