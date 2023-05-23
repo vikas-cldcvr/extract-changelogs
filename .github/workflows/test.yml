@@ -23,11 +23,11 @@ jobs:
         with:
           changelog-files-config: |
             {
-              "test":"SAMPLE_CHANGELOG.md",
+              "@cldcvr/flow-code-editor":"SAMPLE_CHANGELOG.md",
                "test2":"SAMPLE_CHANGELOG.md"
             }
           released-package-versions: |
             [
-              {"name":"test","version":"1.0.2"},
+              {"name":"@cldcvr/flow-code-editor","version":"1.0.2"},
               {"name":"test2","version":"2.1.2"}
             ]
