@@ -128,12 +128,12 @@ function run() {
             let changeLogs = ``;
             for (const packageWithVersion of Object.entries(packageVersions)) {
                 const releaseNotes = yield extractReleaseNotes(packageFilesPath[packageWithVersion[0]], 'false');
-                const md = `\n\`${packageWithVersion[0]}@${packageWithVersion[1]}\`\n${releaseNotes}\nTo update your package to the latest version, simply run the following command in your project directory:\n\`npm install ${packageWithVersion[0]}@${packageWithVersion[1]}\`\n\nIf you're using Yarn, you can use the following command:\n\n\`yarn add ${packageWithVersion[0]}@${packageWithVersion[1]}\`\n`;
+                const md = `\nPackage : \`${packageWithVersion[0]}@${packageWithVersion[1]}\`\n${releaseNotes}\nTo update your package to the latest version, simply run the following command in your project directory:\n\`npm install ${packageWithVersion[0]}@${packageWithVersion[1]}\`\n\nIf you're using Yarn, you can use the following command:\n\n\`yarn add ${packageWithVersion[0]}@${packageWithVersion[1]}\`\n`;
                 const mrkdwn = (0, slackify_markdown_1.default)(md.trim());
-                changeLogs += mrkdwn.trim();
+                changeLogs += `${mrkdwn.trim()}\n`;
             }
             // eslint-disable-next-line no-console
-            console.info(`Final changelog : ${changeLogs}`);
+            console.info(`${changeLogs}`);
             core.setOutput('changeLogs', changeLogs);
         }
         catch (error) {
