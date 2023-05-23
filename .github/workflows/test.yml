@@ -23,8 +23,8 @@ jobs:
         with:
           changelog-files-config: |
             {
-              "test":"SAMPLE_CHNAGELOG.md",
-               "test2":"SAMPLE_CHNAGELOG.md"
+              "test":"SAMPLE_CHANGELOG.md",
+               "test2":"SAMPLE_CHANGELOG.md"
             }
           released-package-versions: |
             {
