@@ -11,7 +11,7 @@ inputs:
     description: 'keya-value object of packagename and version file path'
     default: '{}'
   outputs:
-    changelog:
+    changeLogs:
       description: 'Converted Slack mrkdwn text'
 runs:
   using: 'node16'
