@@ -1,5 +1,5 @@
 name: 'extract-changelogs'
-description: 'This action accepts object with package name and changelog files path. gives you consolidated changelogs with slack markdown enabled format.'
+description: 'Extract changelog from mono repo and returns slack formatted message'
 author: 'vikas-cldcvr'
 inputs:
   changelog-files-config: 
