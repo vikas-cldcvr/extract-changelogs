@@ -86,7 +86,7 @@ async function run(): Promise<void> {
         'false'
       )
 
-      const md = `\nPackage : \`${packageWithVersion.name}@${packageWithVersion.version}\`\n${releaseNotes}\nTo update your package to the latest version, simply run the following command in your project directory:\n\`npm install ${packageWithVersion.name}@${packageWithVersion.version}\`\n\nIf you're using Yarn, you can use the following command:\n\n\`yarn add ${packageWithVersion.name}@${packageWithVersion.version}\`\n`
+      const md = `\n# Package : \`${packageWithVersion.name}@${packageWithVersion.version}\`\n${releaseNotes}\nTo update your package to the latest version, simply run the following command in your project directory:\n\`npm install ${packageWithVersion.name}@${packageWithVersion.version}\`\n\n\n`
       const mrkdwn = slackifyMarkdown(md.trim())
 
       changeLogs += `${mrkdwn.trim()}\n\n`
